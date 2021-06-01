@@ -855,12 +855,16 @@ The following low level unsafe operations are also exported.
 ### make-completion
 ``` scheme
 (make-completion) -> completion
+(make-completion name) -> completion
 ```
 
 Creates a new asynchronous completion, a synchronization construct which blocks
 until a thread signals that its task either succeeded or failed via
 `completion-post!` or `completion-error!`, respectively, notifying all waiting
 threads about the result.
+
+An optional `name` may be provided for debugging purposes:
+if you deadlock, you'll be able to more easily identify which completion went wrong.
 
 ::: tip Examples:
 ``` scheme
@@ -1621,6 +1625,15 @@ length: 3
 (import :std/misc/hash)
 ```
 :::
+
+### hash-ref/default
+``` scheme
+(hash-ensure-ref table key default) -> value
+```
+
+Checks whether the given *key* is present in the *table*.
+If it is, return the associated value.
+If it is not, call the *default* thunk and return its value.
 
 ### hash-ensure-ref
 ``` scheme

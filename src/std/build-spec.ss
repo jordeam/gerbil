@@ -1,5 +1,6 @@
 ;; -*- Gerbil -*-
-(def build-spec
+
+(def (build-spec srcdir: srcdir libdir: _ debug: _)
   `((gxc: "build-config" (extra-inputs: ("build-features.ss")))
     "gambit-sharp"
     "interactive"
@@ -97,6 +98,7 @@
     "srfi/159/columnar"
     (gxc: "srfi/159/unicode" (extra-inputs: ("srfi/159/unicode.scm")))
     (gxc: "srfi/159/color" (extra-inputs: ("srfi/159/color.scm")))
+    (gxc: "srfi/159/pretty" (extra-inputs: ("srfi/159/pretty.scm")))
     "srfi/159"
     "srfi/160/cvector"
     "srfi/160/base"
@@ -228,18 +230,18 @@
     "xml/print"
     "xml"
     ;; :std/crypto
-    (gsc: "crypto/libcrypto"
+    (static-include: "crypto/libcrypto-rfc5114.c")
+    (gxc: "crypto/libcrypto"
           "-cc-options" ,(cppflags "libcrypto" "")
           "-ld-options" ,(ldflags "libcrypto" "-lcrypto")
           ,@(include-gambit-sharp))
-    (static-include: "crypto/libcrypto-rfc5114.c")
-    (ssi: "crypto/libcrypto")
     (gxc: "crypto/etc" ,@(include-gambit-sharp))
     "crypto/digest"
     "crypto/cipher"
     "crypto/hmac"
     "crypto/bn"
     "crypto/dh"
+    "crypto/pkey"
     "crypto"
     ;; :std/misc
     "misc/concurrent-plan"

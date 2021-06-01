@@ -114,8 +114,7 @@
    ((and (procedure? x) (##procedure-name x))
     => (lambda (name) (display name port)))
 
-   ((and (object? x) (find-method (object-type x) ':pr))
-    => (lambda (m) (m x port options)))
+   ((method-ref x ':pr) => (lambda (m) (m x port options)))
 
    ((and (object? x)
          (let (t (object-type x))
@@ -142,7 +141,7 @@
       object (port (current-output-port)) (options (current-representation-options)))
   (def (d x) (display x port))
   (def (w x) (write x port))
-  (d "(begin0 #") (d (object->serial-number object)) (d " ") (w (object->string object)) (d ")"))
+  (d "#") (d (object->serial-number object)) (d " #;") (w (object->string object)))
 
 ;; Class for representable objects with a :pr method.
 (defclass representable ())
